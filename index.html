@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ReUp — IV Nurse Inventory</title>
     <meta name="description" content="ReUp helps mobile IV nurses keep track of bags, batches, expirations, and appointments — all on iPhone and iPad. Private by design.">
     <link rel="canonical" href="https://reup.valeralabs.io/">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="_glass.css">
+    <meta name="theme-color" content="#eef2fb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#07090f" media="(prefers-color-scheme: dark)">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="ReUp — IV Nurse Inventory">
@@ -32,416 +35,293 @@
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --text: #1d1d1f;
-            --muted: #86868b;
-            --body: #424245;
-            --bg: #f5f5f7;
-            --card: #ffffff;
-            --accent: #0066cc;
-            --accent-soft: rgba(0, 102, 204, 0.08);
-            --border: #e5e5e5;
-        }
-        @media (prefers-reduced-motion: no-preference) {
-            html { scroll-behavior: smooth; }
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background: var(--bg);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Nav */
-        .nav-bar {
-            background: rgba(245, 245, 247, 0.85);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .nav-inner {
-            max-width: 1040px;
-            margin: 0 auto;
-            padding: 0.7rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; font-size: 1.05rem; color: var(--text); text-decoration: none; }
-        .nav-brand img { width: 28px; height: 28px; border-radius: 7px; }
-        .nav-links { display: flex; gap: 1.25rem; font-size: 0.95rem; }
-        .nav-links a { color: var(--body); text-decoration: none; }
-        .nav-links a:hover { color: var(--accent); }
-
-        section { padding: 5rem 1.5rem; }
-        .container { max-width: 1040px; margin: 0 auto; }
-
-        /* Hero */
-        .hero { padding-top: 4.5rem; padding-bottom: 5rem; }
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 3.5rem;
-            align-items: center;
-        }
-        .hero-text h1 {
-            font-size: clamp(2.4rem, 5.2vw, 3.75rem);
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            line-height: 1.05;
-            margin-bottom: 1.25rem;
-        }
-        .hero-text h1 .dot { color: var(--accent); }
-        .hero-text .tagline {
-            font-size: clamp(1.05rem, 2vw, 1.25rem);
-            color: var(--body);
-            max-width: 520px;
-            margin-bottom: 2rem;
-        }
-        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-        .app-store-badge {
-            display: inline-block;
-            transition: transform 0.15s ease;
-        }
-        .app-store-badge:hover { transform: scale(1.03); }
-        .app-store-badge img { display: block; height: 52px; width: auto; }
-        .scroll-cue {
-            color: var(--muted);
-            font-size: 0.95rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.5rem 0.25rem;
-        }
-        .scroll-cue:hover { color: var(--accent); }
-
-        /* Phone mockup */
-        .hero-visual { display: flex; justify-content: center; align-items: center; }
-        .phone {
-            position: relative;
-            width: min(300px, 80vw);
-            aspect-ratio: 1320 / 2868;
-            background: #1a1a1c;
-            border-radius: 52px;
-            padding: 10px;
-            box-shadow:
-                0 0 0 2px rgba(255,255,255,0.04) inset,
-                0 30px 70px -20px rgba(0,0,0,0.35),
-                0 12px 28px -14px rgba(0,0,0,0.25);
-        }
-        .phone::before {
-            content: '';
-            position: absolute;
-            top: 14px; left: 50%;
-            transform: translateX(-50%);
-            width: 90px; height: 26px;
-            background: #000;
-            border-radius: 999px;
-            z-index: 2;
-        }
-        .phone img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 42px;
-            object-fit: cover;
-        }
-
-        /* Privacy band — promoted */
-        .privacy-band {
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 4rem 1.5rem;
-        }
-        .privacy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-        }
-        .privacy-item h4 {
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .privacy-item h4 svg {
-            width: 18px; height: 18px; color: var(--accent);
-            flex-shrink: 0;
-        }
-        .privacy-item p { color: var(--body); font-size: 0.95rem; }
-        .privacy-item p a { color: var(--accent); text-decoration: none; }
-        .privacy-item p a:hover { text-decoration: underline; }
-
-        /* Section heads */
-        .eyebrow {
-            display: block;
-            text-align: center;
-            color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-        }
-        .section-title {
-            font-size: clamp(1.85rem, 3.5vw, 2.4rem);
-            font-weight: 700;
-            letter-spacing: -0.018em;
-            text-align: center;
-            margin-bottom: 0.75rem;
-        }
-        .section-sub {
-            text-align: center;
-            color: var(--muted);
-            max-width: 640px;
-            margin: 0 auto 3rem;
-            font-size: 1.05rem;
-        }
-
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.25rem;
-        }
-        .feature {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1.75rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .feature:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-        }
-        .feature .icon-tile {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-        .feature .icon-tile svg { width: 22px; height: 22px; }
-        .feature h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
-        .feature p { color: var(--body); font-size: 0.95rem; }
-
-        /* Screenshots */
-        .shots-band { background: var(--card); border-top: 1px solid var(--border); }
-        .shots-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem 1.5rem;
-            justify-items: center;
-        }
-        @media (max-width: 880px) { .shots-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 540px) { .shots-grid { grid-template-columns: 1fr; } }
-        .shot {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .shot .phone { width: min(240px, 80vw); }
-        .shot-caption {
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-            margin-top: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* Footer */
-        footer {
-            padding: 2.5rem 1.5rem 3rem;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
-            background: var(--bg);
-        }
-        footer a { color: var(--muted); text-decoration: none; margin: 0 0.5rem; }
-        footer a:hover { color: var(--accent); }
-        .footer-credit { margin-top: 1rem; }
-
-        /* Responsive */
-        @media (max-width: 760px) {
-            .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
-            .hero-text .tagline { margin-left: auto; margin-right: auto; }
-            .cta-row { justify-content: center; }
-            section { padding: 3.5rem 1.25rem; }
-            .hero { padding-top: 3rem; padding-bottom: 3.5rem; }
-        }
-    </style>
     <!-- Moved to reup.valeralabs.io; the GitHub Pages copy only forwards there. -->
     <script>if(location.hostname.endsWith('github.io'))location.replace('https://reup.valeralabs.io/'+location.pathname.replace(/^\/reup-support\/?/,''))</script>
+    <style>
+        /* hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2.5rem;
+            align-items: center;
+            padding: clamp(3rem, 10vh, 6.5rem) 0 clamp(2.5rem, 6vh, 4rem);
+        }
+        @media (max-width: 820px) { .hero { grid-template-columns: 1fr; text-align: center; gap: 2.5rem; } .hero .pill { margin-left: auto; margin-right: auto; } .hero-visual { order: -1; } }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6.4vw, 4.4rem);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.02;
+            margin: 1.25rem 0 1.1rem;
+        }
+        .hero h1 .shine {
+            background: linear-gradient(100deg, var(--text) 0%, var(--text) 40%, var(--accent) 60%, var(--text) 80%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+            animation: shine 7s ease-in-out infinite;
+        }
+        @keyframes shine { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+        .lede { font-size: clamp(1.05rem, 2vw, 1.22rem); color: var(--body); max-width: 50ch; }
+        @media (max-width: 820px) { .lede { margin: 0 auto; } }
+        .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1.75rem; align-items: center; }
+        @media (max-width: 820px) { .cta-row { justify-content: center; } }
+        .app-store-badge { display: inline-block; transition: transform 0.2s ease; }
+        .app-store-badge:hover { transform: translateY(-1px) scale(1.02); }
+        .app-store-badge img { display: block; height: 52px; width: auto; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.25rem; border-radius: 999px;
+            font-weight: 600; font-size: 0.98rem; color: var(--text);
+            background: var(--glass-strong);
+            -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 -1px 0 var(--glass-edge-soft), var(--glass-shadow);
+            transition: transform 0.2s ease;
+        }
+        .btn:hover { text-decoration: none; transform: translateY(-1px); }
+
+        /* phone in a tilting glass stage */
+        .hero-visual { display: flex; justify-content: center; perspective: 1400px; }
+        .stage {
+            position: relative;
+            width: min(340px, 82vw);
+            padding: 1.5rem;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --mx: 50%; --my: 30%;
+        }
+        .stage.is-hover { transition: transform 0.08s linear; }
+        .stage .glass-layer { position: absolute; inset: 0; border-radius: 36px; transform: translateZ(0); overflow: hidden; }
+        .stage .glass-layer::after {
+            content: ""; position: absolute; inset: -40%;
+            background: radial-gradient(circle at var(--mx) var(--my), var(--specular) 0%, transparent 28%);
+            opacity: 0.55; mix-blend-mode: soft-light; transition: opacity 0.3s ease;
+        }
+        .stage.is-hover .glass-layer::after { opacity: 0.95; }
+        .phone {
+            position: relative;
+            aspect-ratio: 1320 / 2868;
+            background: #1a1a1c;
+            border-radius: 44px;
+            padding: 8px;
+            transform: translateZ(50px);
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.06) inset, 0 40px 80px -30px rgba(0,0,0,0.55), 0 14px 30px -14px rgba(0,0,0,0.35);
+        }
+        .phone::before { content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 84px; height: 24px; background: #000; border-radius: 999px; z-index: 2; }
+        .phone img { display: block; width: 100%; height: 100%; border-radius: 36px; object-fit: cover; }
+        .stage .chip {
+            position: absolute; padding: 0.45rem 0.75rem; border-radius: 999px;
+            font-size: 0.8rem; font-weight: 600; color: var(--text); white-space: nowrap;
+            transform: translateZ(var(--z, 90px));
+        }
+        .stage .chip.a { top: 16%; right: -24%; --z: 110px; }
+        .stage .chip.b { bottom: 20%; left: -26%; --z: 95px; }
+        .stage .chip .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.4rem; vertical-align: -1px; }
+        @media (max-width: 600px) { .stage .chip { display: none; } }
+
+        /* section heads */
+        .section { padding: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
+        .eyebrow { display: block; text-align: center; color: var(--accent); font-size: 0.82rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+        .section-title { font-size: clamp(1.85rem, 3.6vw, 2.5rem); font-weight: 700; letter-spacing: -0.03em; text-align: center; margin-bottom: 0.6rem; line-height: 1.1; }
+        .section-sub { text-align: center; color: var(--body); max-width: 60ch; margin: 0 auto 2rem; font-size: 1.05rem; }
+
+        /* glass cards that tilt */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.1rem; perspective: 1400px; }
+        .card {
+            position: relative; border-radius: 24px; padding: 1.4rem 1.4rem 1.3rem;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --mx: 50%; --my: 30%;
+        }
+        .card.is-hover { transition: transform 0.08s linear; }
+        .card .glass-layer { position: absolute; inset: 0; border-radius: inherit; transform: translateZ(0); overflow: hidden; }
+        .card .glass-layer::after {
+            content: ""; position: absolute; inset: -40%;
+            background: radial-gradient(circle at var(--mx) var(--my), var(--specular) 0%, transparent 28%);
+            opacity: 0.5; mix-blend-mode: soft-light; transition: opacity 0.3s ease;
+        }
+        .card.is-hover .glass-layer::after { opacity: 0.95; }
+        .card > * { position: relative; }
+        .card .sym {
+            width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+            background: linear-gradient(160deg, #4c8dff, #0a4fd6); color: #fff;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 10px 20px -10px rgba(10,79,214,0.8);
+            transform: translateZ(28px);
+        }
+        .card .sym.green { background: linear-gradient(160deg, #5fd48f, #1c8f50); box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 10px 20px -10px rgba(28,143,80,0.8); }
+        .card .sym svg { width: 22px; height: 22px; }
+        .card h3 { font-size: 1.08rem; font-weight: 650; letter-spacing: -0.015em; margin: 0.95rem 0 0.3rem; transform: translateZ(18px); }
+        .card p { color: var(--body); font-size: 0.95rem; transform: translateZ(12px); }
+        .card p a { color: var(--accent); }
+
+        /* screenshots */
+        .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1.25rem; }
+        @media (max-width: 880px) { .shots { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 540px) { .shots { grid-template-columns: 1fr; } }
+        .shot { position: relative; margin: 0; padding: 1.1rem 1.1rem 1rem; border-radius: 28px; display: flex; flex-direction: column; align-items: center; gap: 0.85rem; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); --mx: 50%; --my: 30%; }
+        .shot.is-hover { transition: transform 0.08s linear; }
+        .shot .glass-layer { position: absolute; inset: 0; border-radius: inherit; transform: translateZ(0); overflow: hidden; }
+        .shot .glass-layer::after { content: ""; position: absolute; inset: -40%; background: radial-gradient(circle at var(--mx) var(--my), var(--specular) 0%, transparent 28%); opacity: 0.5; mix-blend-mode: soft-light; }
+        .shot .phone { width: min(230px, 70vw); transform: translateZ(30px); border-radius: 34px; padding: 6px; }
+        .shot .phone::before { width: 64px; height: 18px; top: 9px; }
+        .shot .phone img { border-radius: 28px; }
+        .shot figcaption { position: relative; font-size: 0.9rem; font-weight: 550; color: var(--body); transform: translateZ(20px); }
+
+        /* closing band */
+        .band { margin-top: clamp(2.5rem, 7vh, 4.5rem); padding: 1.6rem 1.6rem; border-radius: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; }
+        .band strong { display: block; font-size: 1.15rem; letter-spacing: -0.015em; }
+        .band span { color: var(--body); font-size: 0.95rem; }
+
+        .foot { max-width: none; }
+
+        @media (prefers-reduced-motion: reduce) { .hero h1 .shine { animation: none; } .stage, .card, .shot, .btn, .app-store-badge { transition: none; } }
+    </style>
 </head>
 <body>
+    <div class="bg" aria-hidden="true">
+        <canvas id="bg"></canvas>
+        <div class="grain"></div>
+        <div class="vignette"></div>
+    </div>
 
-    <nav class="nav-bar">
-        <div class="nav-inner">
-            <a href="#" class="nav-brand">
-                <img src="favicon.png" alt="" width="28" height="28">
-                <span>ReUp</span>
-            </a>
+    <div class="page">
+        <nav class="nav glass" aria-label="Primary">
+            <a class="brand" href="index.html"><img src="appicon.png" alt=""><span>ReUp</span></a>
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#screenshots">Screenshots</a>
                 <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy</a>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-text">
-                    <h1>Never run out<br>mid-visit<span class="dot">.</span></h1>
-                    <p class="tagline">ReUp tracks every bag, batch, and expiration date for mobile IV nurses — so you always know what's on the truck before you walk into a client's home.</p>
-                    <div class="cta-row">
-                        <a href="https://apps.apple.com/us/app/reup-iv-nurse-inventory/id6762025162" class="app-store-badge" aria-label="Download ReUp on the App Store">
-                            <img src="screenshots/app-store-badge.svg" alt="Download on the App Store" width="156" height="52">
-                        </a>
-                        <a href="#screenshots" class="scroll-cue">See how it works ↓</a>
-                    </div>
+        <header class="hero">
+            <div class="hero-text">
+                <span class="pill"><span class="dot" aria-hidden="true"></span>Free on the App Store</span>
+                <h1>Never run out<br><span class="shine">mid-visit.</span></h1>
+                <p class="lede">ReUp tracks every bag, batch, and expiration date for mobile IV nurses, so you always know what's on the truck before you walk into a client's home.</p>
+                <div class="cta-row">
+                    <a href="https://apps.apple.com/us/app/reup-iv-nurse-inventory/id6762025162" class="app-store-badge" aria-label="Download ReUp on the App Store">
+                        <img src="screenshots/app-store-badge.svg" alt="Download on the App Store" width="156" height="52">
+                    </a>
+                    <a class="btn" href="#screenshots">See how it works</a>
                 </div>
-                <div class="hero-visual">
+            </div>
+            <div class="hero-visual">
+                <div class="stage" data-tilt="12">
+                    <div class="glass-layer glass"></div>
                     <div class="phone">
                         <img src="screenshots/01_inventory.png" alt="ReUp inventory screen on iPhone" width="300" height="652" loading="eager">
                     </div>
+                    <span class="chip glass a" aria-hidden="true"><span class="sw" style="background:#ff9f0a"></span>3 bags expire Fri</span>
+                    <span class="chip glass b" aria-hidden="true"><span class="sw" style="background:#34c759"></span>Treatment applied</span>
                 </div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <section class="privacy-band">
-        <div class="container">
+        <section class="section" aria-labelledby="privacy-title">
             <span class="eyebrow">Private by design</span>
-            <h2 class="section-title">Your data stays yours</h2>
+            <h2 class="section-title" id="privacy-title">Your data stays yours</h2>
             <p class="section-sub">No servers we control. No analytics SDKs. No third-party trackers. Just your inventory, on your devices.</p>
-
-            <div class="privacy-grid">
-                <div class="privacy-item">
-                    <h4>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-                        On-device first
-                    </h4>
+            <div class="cards">
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                    <h3>On-device first</h3>
                     <p>All data is stored locally with Apple's SwiftData. The app works fully offline.</p>
                 </div>
-                <div class="privacy-item">
-                    <h4>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.78 6 6 0 1 0-10.18 5.4"/><path d="M5 19h12.5"/></svg>
-                        Optional iCloud
-                    </h4>
-                    <p>If you turn on sync, your data goes to your personal iCloud — not ours. Your iPhone and iPad stay in step.</p>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.78 6 6 0 1 0-10.18 5.4"/><path d="M5 19h12.5"/></svg></div>
+                    <h3>Optional iCloud</h3>
+                    <p>If you turn on sync, your data goes to your personal iCloud, not ours. Your iPhone and iPad stay in step.</p>
                 </div>
-                <div class="privacy-item">
-                    <h4>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7"/><path d="M2 12s3 7 10 7 10-7 10-7"/><path d="m4 4 16 16"/></svg>
-                        No tracking
-                    </h4>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7"/><path d="M2 12s3 7 10 7 10-7 10-7"/><path d="m4 4 16 16"/></svg></div>
+                    <h3>No tracking</h3>
                     <p>No analytics, no advertising IDs, no telemetry. <a href="privacy.html">Read the privacy policy</a>.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="features">
-        <div class="container">
+        <section class="section" id="features" aria-labelledby="features-title">
             <span class="eyebrow">What it does</span>
-            <h2 class="section-title">Built for clinical reality</h2>
+            <h2 class="section-title" id="features-title">Built for clinical reality</h2>
             <p class="section-sub">Every bag tracked from delivery to administration with batch-level precision.</p>
-
-            <div class="features">
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
-                    </span>
+            <div class="cards">
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg></div>
                     <h3>Batch &amp; lot tracking</h3>
                     <p>Record lot numbers and expiration dates per batch. ReUp uses First-Expired-First-Out so the right bag is always next.</p>
                 </div>
-
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
-                    </span>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></div>
                     <h3>Expiry &amp; low-stock alerts</h3>
-                    <p>Configurable warning windows surface expiring batches and items running low — before they affect a visit.</p>
+                    <p>Configurable warning windows surface expiring batches and items running low, before they affect a visit.</p>
                 </div>
-
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    </span>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
                     <h3>One-tap treatments</h3>
-                    <p>Define a treatment once, then apply it to a client to decrement every component in the right order — with undo.</p>
+                    <p>Define a treatment once, then apply it to a client to decrement every component in the right order, with undo.</p>
                 </div>
-
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
-                    </span>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
                     <h3>Volume tracking</h3>
                     <p>For multi-dose vials, track partial use down to the milliliter. Open vials are drawn from first.</p>
                 </div>
-
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-                    </span>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></div>
                     <h3>Appointments &amp; reminders</h3>
                     <p>Schedule one-off and recurring visits with address autocomplete and on-device notification reminders.</p>
                 </div>
-
-                <div class="feature">
-                    <span class="icon-tile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-                    </span>
+                <div class="card" data-tilt="10">
+                    <div class="glass-layer glass"></div>
+                    <div class="sym" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></div>
                     <h3>Full history &amp; export</h3>
-                    <p>Every change is logged. Export inventory, batches, and history as CSV — or generate a PDF report for the chart.</p>
+                    <p>Every change is logged. Export inventory, batches, and history as CSV, or generate a PDF report for the chart.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="screenshots" class="shots-band">
-        <div class="container">
+        <section class="section" id="screenshots" aria-labelledby="shots-title">
             <span class="eyebrow">A look inside</span>
-            <h2 class="section-title">Designed to feel native</h2>
+            <h2 class="section-title" id="shots-title">Designed to feel native</h2>
             <p class="section-sub">SwiftUI, SwiftData, and Apple's design language end-to-end.</p>
-
-            <div class="shots-grid">
-                <figure class="shot"><div class="phone"><img src="screenshots/01_inventory.png" alt="Inventory screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">Inventory</figcaption></figure>
-                <figure class="shot"><div class="phone"><img src="screenshots/02_low_stock.png" alt="Low stock screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">Low Stock</figcaption></figure>
-                <figure class="shot"><div class="phone"><img src="screenshots/03_treatments.png" alt="Treatments screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">Treatments</figcaption></figure>
-                <figure class="shot"><div class="phone"><img src="screenshots/04_schedule.png" alt="Schedule screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">Schedule</figcaption></figure>
-                <figure class="shot"><div class="phone"><img src="screenshots/05_settings.png" alt="Settings screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">Settings</figcaption></figure>
-                <figure class="shot"><div class="phone"><img src="screenshots/06_history.png" alt="History screen" loading="lazy" width="240" height="522"></div><figcaption class="shot-caption">History</figcaption></figure>
+            <div class="shots">
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/01_inventory.png" alt="Inventory screen" loading="lazy" width="240" height="522"></div><figcaption>Inventory</figcaption></figure>
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/02_low_stock.png" alt="Low stock screen" loading="lazy" width="240" height="522"></div><figcaption>Low Stock</figcaption></figure>
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/03_treatments.png" alt="Treatments screen" loading="lazy" width="240" height="522"></div><figcaption>Treatments</figcaption></figure>
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/04_schedule.png" alt="Schedule screen" loading="lazy" width="240" height="522"></div><figcaption>Schedule</figcaption></figure>
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/05_settings.png" alt="Settings screen" loading="lazy" width="240" height="522"></div><figcaption>Settings</figcaption></figure>
+                <figure class="shot" data-tilt="8"><div class="glass-layer glass"></div><div class="phone"><img src="screenshots/06_history.png" alt="History screen" loading="lazy" width="240" height="522"></div><figcaption>History</figcaption></figure>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <div>
-            <a href="support.html">Support</a> &middot;
-            <a href="privacy.html">Privacy</a> &middot;
-            <a href="https://github.com/cjvalera/reup-support/issues">Report an Issue</a>
+        <div class="band glass">
+            <div><strong>Free on the App Store.</strong><span>No accounts, no ads, no tracking. Your inventory stays on your devices.</span></div>
+            <a href="https://apps.apple.com/us/app/reup-iv-nurse-inventory/id6762025162" class="app-store-badge" aria-label="Download ReUp on the App Store">
+                <img src="screenshots/app-store-badge.svg" alt="Download on the App Store" width="156" height="52">
+            </a>
         </div>
-        <p class="footer-credit">&copy; 2026 ReUp · Built by an indie dev for mobile IV nurses.</p>
-    </footer>
 
+        <footer class="foot glass">
+            <span>&copy; 2026 <a href="https://valeralabs.io/">Valera Labs</a> &middot; Built by an indie dev for mobile IV nurses.</span>
+            <span class="links">
+                <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="https://github.com/cjvalera/reup-support/issues">Report an issue</a>
+            </span>
+        </footer>
+    </div>
+
+    <script src="_glass.js"></script>
 </body>
 </html>
