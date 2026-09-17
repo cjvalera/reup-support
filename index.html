@@ -120,6 +120,10 @@
         .stage .chip .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.4rem; vertical-align: -1px; }
         @media (max-width: 600px) { .stage .chip { display: none; } }
 
+        /* launch video */
+        .video-frame { position: relative; max-width: 960px; margin: 0 auto; padding: 12px; border-radius: 28px; }
+        .video-frame video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 18px; background: #07090f; }
+
         /* section heads */
         .section { padding: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
         .eyebrow { display: block; text-align: center; color: var(--accent); font-size: 0.82rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
@@ -190,6 +194,7 @@
         <nav class="nav glass" aria-label="Primary">
             <a class="brand" href="index.html"><img src="appicon.png" alt=""><span>ReUp</span></a>
             <div class="nav-links">
+                <a href="#watch">Watch</a>
                 <a href="#features">Features</a>
                 <a href="#screenshots">Screenshots</a>
                 <a href="support.html">Support</a>
@@ -220,6 +225,18 @@
                 </div>
             </div>
         </header>
+
+        <section class="section" id="watch" aria-labelledby="watch-title">
+            <span class="eyebrow">In 20 seconds</span>
+            <h2 class="section-title" id="watch-title">See ReUp in action</h2>
+            <p class="section-sub">Inventory, low-stock alerts, one-tap treatments and the schedule, on the real screens.</p>
+            <div class="video-frame glass">
+                <video id="launch-video" controls playsinline preload="metadata" poster="reup-launch.jpg" width="1920" height="1080">
+                    <source src="reup-launch.mp4" type="video/mp4">
+                    Your browser cannot play this video. <a href="reup-launch.mp4">Download it</a> instead.
+                </video>
+            </div>
+        </section>
 
         <section class="section" aria-labelledby="privacy-title">
             <span class="eyebrow">Private by design</span>
